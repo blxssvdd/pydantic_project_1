@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Dexter",
+    "director": "James Manos Jr.",
+    "release_year": 2006,
+    "rating": 8.6
+  },
+  {
+    "id": 2,
+    "title": "Dexter",
+    "director": "James",
+    "release_year": 2010,
+    "rating": 9.9
+  }
+]

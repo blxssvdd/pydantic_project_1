@@ -1,6 +1,5 @@
 from typing import List, Dict, Union, Optional, Annotated
 from enum import Enum
-from datetime import date 
 from pydantic import BaseModel, HttpUrl, EmailStr, field_validator, Field
 
 
@@ -8,7 +7,7 @@ class MovieModel(BaseModel):
     id: Annotated[int, Field(..., description="ID фільму")]
     title: Annotated[str, Field(..., description="Назва фільму")]
     director: Annotated[str, Field(..., description="Режисер фільму")]
-    release_year: Annotated[date, Field(..., description="Рік виходу фільму")]
+    release_year: Annotated[int, Field(..., description="Рік виходу фільму")]
     rating: Annotated[float, Field(..., description="Рейтинг фільму")]
 
 
@@ -34,14 +33,23 @@ class MovieModel(BaseModel):
     
 
     @field_validator("release_year")
-    def check_release_year(cls, release_year: date):
-        if release_year > date.today():
-            raise ValueError("Рік виходу фільму не може бути у майбутньому")
-        return release_year
+    def check_release_year(cls, release_year):
+        if release_year < 2026:
+            return release_year
+        raise ValueError("Рік випуску не може бути у майбутньому. ☹️")
 
-    
+        
+
     @field_validator("rating")
     def check_rating(cls, rating: float):
         if rating < 0 or rating > 10:
             raise ValueError("Рейтинг фільму повинен бути в діапазоні від 0 до 10")
         return rating
+    
+
+class MovieModelResponse(BaseModel):
+    id: Annotated[int, Field(..., description="ID фільму")]
+    title: Annotated[str, Field(..., description="Назва фільму")]
+    director: Annotated[str, Field(..., description="Режисер фільму")]
+    release_year: Annotated[int, Field(..., description="Рік виходу фільму")]
+    rating: Annotated[float, Field(..., description="Рейтинг фільму")]
